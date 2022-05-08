@@ -54,7 +54,8 @@ window.onload = () => {
     }
   }
   
-  fetch("https://script.google.com/macros/s/AKfycbzZtYu_kEXFPXRWgWfCp8qPsP4g3ae7BrGO6f0UjsxqHr2tbKxsBs5Aq8VhS0E-5mlz/exec").then(e => e.json()).then(data => {
+  fetch("https://script.google.com/macros/s/AKfycbzZtYu_kEXFPXRWgWfCp8qPsP4g3ae7BrGO6f0UjsxqHr2tbKxsBs5Aq8VhS0E-5mlz/exec").then(e => e.json()).then(response => {
+    data = response;
     datalen = data.length;
     
     document.querySelectorAll(".disposable").forEach(e => e.remove());
