@@ -81,8 +81,25 @@ window.onload = () => {
     let query = searchinput.value;
     searchinput.value = "";
 
-    searchresultsbody.innerHTML = fuse.search(query).map(match => `<div class="card"><div class="card-header"><div class="d-flex align-items-center justify-content-between"><div class="d-flex align-items-center"><div><h6 class="card-title mb-0">${match.item.title}</h6><p class="small mb-0">${new Date(match.item.time).toLocaleString()}</p></div></div></div></div><div class="card-body"><p class="mb-0">${match.item.description}</p></div><div class="card-footer border-0 d-flex justify-content-between align-items-center"><p class="mb-0">Category: ${match.item.category}</p></div></div>`).join("");
+    let beforedate = new Date(beforesearchoption.value);
+    let before = beforesearchoptioncheck.checked && !isNaN(beforedate) && new Date(beforedate);
+    
+    let afterdate = new Date(aftersearchoption.value);
+    let after = aftersearchoptioncheck.checked && !isNaN(afterdate) && new Date(afterdate);
 
+    let results = fuse.search(query).filter(match => {
+        let date = new Date(match.item.time);
+        return date < before && date > after;
+    });
+    
+    let sortby = sortbysearchresults.value;
+    let relevance = sortby.startsWith("relevance");
+    let ascending = sortby.endsWith("ascending");
+    
+    results.sort((a, b) => (relevance ? (a.score - b.score) : (new Date(a.item.time) - new Date(b.item.time))) * (ascending ? 1 : -1));
+    
+    searchresultsbody.innerHTML = results.map(match => `<div class="card"><div class="card-header"><div class="d-flex align-items-center justify-content-between"><div class="d-flex align-items-center"><div><h6 class="card-title mb-0">${match.item.title}</h6><p class="small mb-0">${new Date(match.item.time).toLocaleString()}</p></div></div></div></div><div class="card-body"><p class="mb-0">${match.item.description}</p></div><div class="card-footer border-0 d-flex justify-content-between align-items-center"><p class="mb-0">Category: ${match.item.category}</p></div></div>`).join("") || `<div class="card"><div class="card-header"><div class="d-flex align-items-center justify-content-between"><div class="d-flex align-items-center"><div><h6 class="card-title mb-0">No results could be found</h6></div></div></div></div><div class="card-body"><p class="mb-0">Please try broadening your search, or checking to make sure that your search filters are not too strict.</p></div></div>`;
+    
     searchmodal.show();
   }
   
@@ -107,5 +124,33 @@ window.onload = () => {
   
   fetch("https://script.google.com/macros/s/AKfycbwoygN-ilaOfgUP-IxC06fvY4bp9R_JovxMHem--ROxFbvuG1zG4xCEUREmxz1XrpecgA/exec").then(e => e.text()).then(e => {
     navbarhtml.outerHTML = e;
+  });
+  
+  searchoptionslink.addEventListener("click", e => e.preventDefault());
+
+  datepicker(beforesearchoption, {
+    showAllDates: true,
+    formatter: (input, date) => {
+      input.value = date.toLocaleDateString();
+    }
+  });
+
+  datepicker(aftersearchoption, {
+    showAllDates: true,
+    formatter: (input, date) => {
+      input.value = date.toLocaleDateString();
+    }
+  });
+
+  beforesearchoptioncheck.addEventListener("change", function() {
+    this.parentElement.classList.toggle("search-options-no-bounds");
+    let datepickerinput = this.nextElementSibling;
+    datepickerinput.disabled = !datepickerinput.disabled;
+  });
+
+  aftersearchoptioncheck.addEventListener("change", function() {
+    this.parentElement.classList.toggle("search-options-no-bounds");
+    let datepickerinput = this.nextElementSibling;
+    datepickerinput.disabled = !datepickerinput.disabled;
   });
 };
