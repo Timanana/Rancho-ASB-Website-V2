@@ -13,6 +13,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/images/favicon.png">
 
+    <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     
     <base href="https://timanana.github.io/Rancho-ASB-Website-V2/">
@@ -55,6 +56,8 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="nav mt-3 mt-lg-0 flex-nowrap align-items-center px-4 px-lg-0" style="margin-left:10px;font-weight:600"><a href="javascript:void(0)" class="nav-link" data-bs-toggle="modal" data-bs-target="#searchoptionsmodal" id="searchoptionslink">Search Options</a></div>
 
                     <div id="navbarhtml"></div>
                 </div>
@@ -328,11 +331,49 @@
             </div>
         </div>
     </div>
+    
+    <div class="modal" tabindex="-1" id="searchoptionsmodal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Search Options</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="searchoptionsbody">
+                    <div class="mb-3">
+                        <ul class="list-group">
+                            <li class="list-group-item search-options-no-bounds">
+                                <input class="form-check-input me-1" type="checkbox" id="beforesearchoptioncheck">
+                                <label for="beforesearchoption searchoption">Before:</label><input class="form-control" type="text" autocomplete="off" id="beforesearchoption" style="margin-top:5px" disabled readonly>
+                            </li>
+                            <li class="list-group-item search-options-no-bounds">
+                                <input class="form-check-input me-1" type="checkbox" id="aftersearchoptioncheck">
+                                <label for="aftersearchoption searchoption">After:</label><input class="form-control" type="text" autocomplete="off" id="aftersearchoption" style="margin-top:5px" disabled readonly>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sortbysearchresults" class="form-label">Sort by</label>
+                        <select class="form-select" aria-label="Sort search results by..." id="sortbysearchresults">
+                            <option value="relevanceascending" selected>Relevance (ascending)</option>
+                            <option value="relevancedescending">Relevance (descending)</option>
+                            <option value="dateascending">Date (ascending)</option>
+                            <option value="datedescending">Date (descending)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="save_search_options()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- **************** MAIN CONTENT END **************** -->
 
     <!-- Bootstrap JS -->
     <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/fuse/fuse.js"></script>
+    <script src="https://unpkg.com/js-datepicker"></script>
     <script src="assets/js/script.js"></script>
 
 </body>
