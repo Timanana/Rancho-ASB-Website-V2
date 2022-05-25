@@ -144,13 +144,13 @@ window.onload = () => {
 
   beforesearchoptioncheck.addEventListener("change", function() {
     this.parentElement.classList.toggle("search-options-no-bounds");
-    let datepickerinput = this.nextElementSibling;
+    let datepickerinput = this.nextElementSibling.nextElementSibling;
     datepickerinput.disabled = !datepickerinput.disabled;
   });
 
   aftersearchoptioncheck.addEventListener("change", function() {
     this.parentElement.classList.toggle("search-options-no-bounds");
-    let datepickerinput = this.nextElementSibling;
+    let datepickerinput = this.nextElementSibling.nextElementSibling;
     datepickerinput.disabled = !datepickerinput.disabled;
   });
 };
