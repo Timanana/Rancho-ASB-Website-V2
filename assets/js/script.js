@@ -89,7 +89,7 @@ window.onload = () => {
 
     let results = fuse.search(query).filter(match => {
         let date = new Date(match.item.time);
-        return date < before && date > after;
+        return (before ? (date < before) : true) && (after ? (date > after) : true);
     });
     
     let sortby = sortbysearchresults.value;
